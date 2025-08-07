@@ -16,6 +16,9 @@ namespace Service.Helpers
             CreateMap<Education, EducationDto>().ForMember(dest=>
             dest.CreatedDate,opt=>opt.MapFrom(src=>src.CreatedDate.ToString("yyyy-MM-dd")));
             CreateMap<EducationCreateDto, Education>();
+            CreateMap<EducationEditDto, Education>()
+    .ForMember(dest => dest.Id, opt => opt.Ignore());
+
         }
     }
 }

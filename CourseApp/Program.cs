@@ -1,4 +1,5 @@
 
+using CourseApp.Middlewares;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +38,10 @@ namespace CourseApp
 
             builder.Services.AddRepositoryLayer();
             builder.Services.AddServiceLayer();
-            
-         
+
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
 
 
             builder.Services.AddEndpointsApiExplorer();
@@ -52,7 +55,7 @@ namespace CourseApp
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseExceptionHandler();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

@@ -21,19 +21,26 @@ namespace Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task EditAsync(T entity)
+        public async Task EditAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllWithExpressionAsync(Expression<Func<T, bool>> predicate)
+        {
+            return predicate is null ? await _dbSet.ToListAsync() : await _dbSet.Where(predicate).ToListAsync();
         }
 
         public Task<T> GetByIdAsync(int id)

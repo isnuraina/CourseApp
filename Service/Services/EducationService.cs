@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Repository.Repositories.Interfaces;
 using Service.DTOs.Education;
+using Service.Helpers.Exceptions;
 using Service.Services.Interfaces;
 
 namespace Service.Services
@@ -21,6 +22,21 @@ namespace Service.Services
             await _educationRepository.CreateAsync(_mapper.Map<Education>(model));
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var existEducation = await _educationRepository.GetWithExpressionAsync(m => m.Id == id);
+            if (existEducation is null) throw new NotFoundException();
+            await _educationRepository.DeleteAsync(existEducation);
+        }
+
+        public async Task EditAsync(int id, EducationEditDto model)
+        {
+            var dbEducation = await _educationRepository.GetWithExpressionAsync(m => m.Id == id);
+            if (dbEducation is null) throw new NotFoundException();
+            _mapper.Map(model, dbEducation);
+            await _educationRepository.EditAsync(dbEducation);
+        }
+
         public async Task<IEnumerable<EducationDto>> GetAllAsync()
         {
             return _mapper.Map<IEnumerable<EducationDto>>(await _educationRepository.GetAllAsync());
@@ -28,7 +44,15 @@ namespace Service.Services
 
         public async Task<EducationDto> GetByIdAsync(int id)
         {
-            return _mapper.Map<EducationDto>(await _educationRepository.GetWithExpressionAsync(m => m.Id == id));
+            var education = await _educationRepository.GetWithExpressionAsync(m => m.Id == id);
+            if (education is null) throw new NotFoundException();
+            return _mapper.Map<EducationDto>(education);
+        }
+
+        public async Task<IEnumerable<EducationDto>> SearchByNameAsync(string str)
+        {
+            var datas = await _educationRepository.GetAllWithExpressionAsync(str is null ? null : m => m.Name.Contains(str));
+            return _mapper.Map<IEnumerable<EducationDto>>(datas);
         }
     }
 }

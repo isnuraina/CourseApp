@@ -10,5 +10,6 @@ namespace Repository.Repositories.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetWithExpressionAsync(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetAllWithExpressionAsync(Expression<Func<T, bool>> predicate);
     }
 }
