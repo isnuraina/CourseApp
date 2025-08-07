@@ -19,7 +19,7 @@ namespace CourseApp.Middlewares
             Exception exception,
             CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+            _logger.LogError(exception, "Exception occurred: {Message }", exception.Message);
 
             ProblemDetails problemDetails;
 
