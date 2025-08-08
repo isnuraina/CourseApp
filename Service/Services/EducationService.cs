@@ -51,14 +51,13 @@ namespace Service.Services
             return _mapper.Map<EducationDto>(education);
         }
 
-        public async Task<IEnumerable<EducationDto>> GetPaginatedDatasAsync(int page)
+        public async Task<Paginate<EducationDto>> GetPaginatedDatasAsync(int page)
         {
             int take = 3;
             var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,take);
             var mappedDatas= _mapper.Map<IEnumerable<EducationDto>>(paginatedDatas);
             int educationsCount = await _educationRepository.GetCountAsync();
             int pageCount =(int)Math.Ceiling((decimal)educationsCount / take);
-
             return new Paginate<EducationDto>(mappedDatas,pageCount,page);
         }
 
