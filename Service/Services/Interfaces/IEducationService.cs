@@ -1,4 +1,5 @@
 ﻿using Service.DTOs.Education;
+using Service.Helpers;
 
 namespace Service.Services.Interfaces
 {
@@ -10,5 +11,6 @@ namespace Service.Services.Interfaces
         Task DeleteAsync(int id);
         Task EditAsync(int id,EducationEditDto model);
         Task<IEnumerable<EducationDto>> SearchByNameAsync(string str);
+        Task<Paginate<EducationDto>> GetPaginatedDatasAsync(int page);
     }
 }

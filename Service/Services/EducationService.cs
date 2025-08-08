@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.Repositories.Interfaces;
 using Service.DTOs.Education;
+using Service.Helpers;
 using Service.Helpers.Exceptions;
 using Service.Services.Interfaces;
 
@@ -47,6 +49,17 @@ namespace Service.Services
             var education = await _educationRepository.GetWithExpressionAsync(m => m.Id == id);
             if (education is null) throw new NotFoundException();
             return _mapper.Map<EducationDto>(education);
+        }
+
+        public async Task<IEnumerable<EducationDto>> GetPaginatedDatasAsync(int page)
+        {
+            int take = 3;
+            var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,take);
+            var mappedDatas= _mapper.Map<IEnumerable<EducationDto>>(paginatedDatas);
+            int educationsCount = await _educationRepository.GetCountAsync();
+            int pageCount =(int)Math.Ceiling((decimal)educationsCount / take);
+
+            return new Paginate<EducationDto>(mappedDatas,pageCount,page);
         }
 
         public async Task<IEnumerable<EducationDto>> SearchByNameAsync(string str)

@@ -54,5 +54,11 @@ namespace CourseApp.Controllers
         {
             return Ok(await _educationService.SearchByNameAsync(searchText));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPaginatedDatas([FromQuery] int page)
+        {
+            return Ok(await _educationService.GetPaginatedDatasAsync(page));
+        }
     }
 }
