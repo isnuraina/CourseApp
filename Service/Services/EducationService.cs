@@ -55,13 +55,12 @@ namespace Service.Services
 
         public async Task<Paginate<EducationDto>> GetPaginatedDatasAsync(int page)
         {
-            var settings = await _settingRepository.GetAllWithExpressionAsync(null);
-            var pageTake = settings.FirstOrDefault().EducationPageTake;
-            int take = 3;
-            var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,int.Parse(pageTake));
+            var settings = await _settingRepository.GetAllAsync();
+            int pageTake = settings.FirstOrDefault().EducationPageTake;
+            var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,pageTake);
             var mappedDatas= _mapper.Map<IEnumerable<EducationDto>>(paginatedDatas);
             int educationsCount = await _educationRepository.GetCountAsync();
-            int pageCount =(int)Math.Ceiling((decimal)educationsCount / int.Parse(pageTake));
+            int pageCount =(int)Math.Ceiling((decimal)educationsCount / pageTake);
             return new Paginate<EducationDto>(mappedDatas,pageCount,page);
         }
 

@@ -4,7 +4,7 @@ namespace Domain.Entities
 {
     public class Setting:BaseEntity
     {
-        public string EducationPageTake { get; set; }
-        public string GroupPageTake { get; set; }
+        public int EducationPageTake { get; set; }
+        public int GroupPageTake { get; set; }
     }
 }

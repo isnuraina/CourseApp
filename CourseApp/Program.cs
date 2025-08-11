@@ -5,12 +5,9 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.Data;
-using Repository.Repositories;
-using Repository.Repositories.Interfaces;
+using Serilog;
 using Service;
 using Service.Helpers;
-using Service.Services;
-using Service.Services.Interfaces;
 
 namespace CourseApp
 {
@@ -42,14 +39,23 @@ namespace CourseApp
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddProblemDetails();
 
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console().
+                WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+                // .WriteTo("http://localhost:5341") //optional seq sink
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
+            builder.Host.UseSerilog();
 
 
+           
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-   
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

@@ -8,10 +8,12 @@ namespace CourseApp.Controllers
     public class EducationController : BaseController
     {
         private readonly IEducationService _educationService;
+        private readonly ILogger<EducationController> _logger;
 
-        public EducationController(IEducationService educationService)
+        public EducationController(IEducationService educationService, ILogger<EducationController> logger)
         {
             _educationService = educationService;
+            _logger = logger;
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]EducationCreateDto request)
@@ -22,6 +24,7 @@ namespace CourseApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            _logger.LogInformation("Get request received at {Time}", DateTime.UtcNow);
             var datas= await _educationService.GetAllAsync();
             return Ok(datas);
         }
