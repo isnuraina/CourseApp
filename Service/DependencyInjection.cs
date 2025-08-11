@@ -10,6 +10,7 @@ namespace Service
         {
             services.AddScoped<IEducationService, EducationService>();
             services.AddScoped<ISettingService, SettingService>();
+            services.AddScoped<IGroupService, GroupService>();
             return services;
         }
     }

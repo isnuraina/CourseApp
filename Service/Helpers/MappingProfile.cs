@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Service.DTOs.Education;
+using Service.DTOs.Group;
 using Service.DTOs.Setting;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace Service.Helpers
             CreateMap<EducationEditDto, Education>()
     .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<SettingCreateDto, Setting>();
+            CreateMap<GroupCreateDto, Group>().ForMember(dest=>dest.EducationId,opt=>opt.MapFrom(src=>src.EducationId));
+            CreateMap<Group, GroupDto>().ForMember(dest => dest.EducationName, opt => opt.MapFrom(src => src.Education.Name)); ;
+
         }
     }
 }

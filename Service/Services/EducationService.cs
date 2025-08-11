@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Domain.Entities;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.Repositories.Interfaces;
 using Service.DTOs.Education;
 using Service.Helpers;
