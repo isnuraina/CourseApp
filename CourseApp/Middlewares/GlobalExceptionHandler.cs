@@ -19,7 +19,7 @@ namespace CourseApp.Middlewares
             Exception exception,
             CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, "Exception occurred: {Message }", exception.Message);
+            _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
 
             ProblemDetails problemDetails;
 
@@ -40,6 +40,15 @@ namespace CourseApp.Middlewares
                         Status = StatusCodes.Status400BadRequest,
                         Title = "Validation Error",
                         Detail = validationException.Message
+                    };
+                    break;
+
+                case BadHttpRequestException badEx:
+                    problemDetails = new ProblemDetails
+                    {
+                        Status = StatusCodes.Status400BadRequest,
+                        Title = "Bad Request",
+                        Detail = badEx.Message
                     };
                     break;
 

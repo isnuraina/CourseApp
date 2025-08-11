@@ -13,11 +13,13 @@ namespace Service.Services
     {
         private readonly IEducationRepository _educationRepository;
         private readonly IMapper _mapper;
+        private readonly ISettingRepository _settingRepository;
 
-        public EducationService(IEducationRepository educationRepository, IMapper mapper)
+        public EducationService(IEducationRepository educationRepository, IMapper mapper, ISettingRepository settingRepository)
         {
             _educationRepository = educationRepository;
             _mapper = mapper;
+            _settingRepository = settingRepository;
         }
         public async Task CreateAsync(EducationCreateDto model)
         {
@@ -53,11 +55,13 @@ namespace Service.Services
 
         public async Task<Paginate<EducationDto>> GetPaginatedDatasAsync(int page)
         {
+            var settings = await _settingRepository.GetAllWithExpressionAsync(null);
+            var pageTake = settings.FirstOrDefault().EducationPageTake;
             int take = 3;
-            var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,take);
+            var paginatedDatas= await _educationRepository.GetPaginatedDatasAsync(page,int.Parse(pageTake));
             var mappedDatas= _mapper.Map<IEnumerable<EducationDto>>(paginatedDatas);
             int educationsCount = await _educationRepository.GetCountAsync();
-            int pageCount =(int)Math.Ceiling((decimal)educationsCount / take);
+            int pageCount =(int)Math.Ceiling((decimal)educationsCount / int.Parse(pageTake));
             return new Paginate<EducationDto>(mappedDatas,pageCount,page);
         }
 
