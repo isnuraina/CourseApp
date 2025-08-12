@@ -1,10 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<AppUser>
     {
         public DbSet<Education> Educations { get; set; }
         public DbSet<Setting> Settings { get; set; }

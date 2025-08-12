@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Service.DTOs.Account;
 using Service.DTOs.Education;
 using Service.DTOs.Group;
 using Service.DTOs.Setting;
@@ -23,7 +24,7 @@ namespace Service.Helpers
             CreateMap<SettingCreateDto, Setting>();
             CreateMap<GroupCreateDto, Group>().ForMember(dest=>dest.EducationId,opt=>opt.MapFrom(src=>src.EducationId));
             CreateMap<Group, GroupDto>().ForMember(dest => dest.EducationName, opt => opt.MapFrom(src => src.Education.Name)); ;
-
+            CreateMap<RegisterDto, AppUser>();
         }
     }
 }

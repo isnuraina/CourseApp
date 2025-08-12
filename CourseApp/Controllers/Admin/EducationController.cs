@@ -3,7 +3,7 @@ using Service.DTOs.Education;
 using Service.Helpers.Exceptions;
 using Service.Services.Interfaces;
 
-namespace CourseApp.Controllers
+namespace CourseApp.Controllers.Admin
 {
     public class EducationController : BaseController
     {

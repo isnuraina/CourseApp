@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.DTOs.Setting;
 using Service.Services.Interfaces;
 
-namespace CourseApp.Controllers
+namespace CourseApp.Controllers.Admin
 {
    
     public class SettingController : BaseController

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CourseApp.Controllers
+namespace CourseApp.Controllers.Admin
 {
     public class TeacherController : ControllerBase
     {

@@ -11,6 +11,7 @@ namespace Service
             services.AddScoped<IEducationService, EducationService>();
             services.AddScoped<ISettingService, SettingService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IAccountService, AccountService>();
             return services;
         }
     }
