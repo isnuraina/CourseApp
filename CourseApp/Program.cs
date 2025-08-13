@@ -3,13 +3,16 @@ using CourseApp.Middlewares;
 using Domain.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Repository.Data;
 using Serilog;
 using Service;
 using Service.Helpers;
+using System.Text;
 
 namespace CourseApp
 {
@@ -56,6 +59,22 @@ namespace CourseApp
                 options.Password.RequiredUniqueChars = 1;
                 options.User.RequireUniqueEmail = true;
             });
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "https://localhost:7046/",
+                        ValidAudience = "https://localhost:7046/",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("nurana"))
+                    };
+                });
+            builder.Services.AddAuthorization();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()

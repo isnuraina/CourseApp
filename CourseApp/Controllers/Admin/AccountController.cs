@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.DTOs.Account;
 using Service.Services.Interfaces;
 
 namespace CourseApp.Controllers.Admin
@@ -16,6 +17,16 @@ namespace CourseApp.Controllers.Admin
         {
             await _accountService.CreateRolesAsync();
             return Ok();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUsersWithRoles()
+        {
+            return Ok(await _accountService.GetAllUsersWithRolesAsync());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody]LoginDto request)
+        {
+            return Ok(await _accountService.LoginAsync(request));
         }
     }
 }
